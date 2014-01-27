@@ -4,7 +4,7 @@ libdir=@libdir@
 includedir=@includedir@
 
 Name: libweather_symbol
-Description: Generate weather symobls from a wether observation or -forecast.
+Description: Generate weather symobls from a weather observations or -forecasts.
 Version: @VERSION@
 Libs: -L${libdir} -lweather_symbol
 Cflags: -I${includedir}
