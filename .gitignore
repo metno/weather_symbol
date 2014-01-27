@@ -13,5 +13,9 @@ ltmain.sh
 m4/
 missing
 
+.autotools
+.cproject
+.project
+
 build/
 
