@@ -8,7 +8,7 @@ AM_CXXFLAGS = -DSYSCONFDIR=\"$(pkgsysconfdir)\" -fPIC
 AM_LDFLAGS = -fPIC
 
 # Setting Targets
-lib_LTLIBRARIES = libweather_symbol.la
+lib_LTLIBRARIES = libweather-symbol.la
 
 libweather_symbol_la_SOURCES =
 
@@ -21,7 +21,7 @@ LIBTOOL_VERSION_REVISION = 	0
 LIBTOOL_VERSION_AGE = 		0
 libweather_symbol_la_LDFLAGS = $(AM_LDFLAGS) -version-info $(LIBTOOL_VERSION_CURRENT):$(LIBTOOL_VERSION_REVISION):$(LIBTOOL_VERSION_AGE)
 
-pkgconfig_DATA = libweather_symbol.pc
+pkgconfig_DATA = libweather-symbol.pc
 
 CLEANFILES =
 
@@ -31,6 +31,4 @@ include src/make.mk
 #include test/libwdbLoad.mk
 
 
-#include config/mk/debian.mk
-
-#debian: common-debian
+include debian.mk

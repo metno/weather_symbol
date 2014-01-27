@@ -3,8 +3,8 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libweather_symbol
+Name: libweather-symbol
 Description: Generate weather symobls from a weather observations or -forecasts.
 Version: @VERSION@
-Libs: -L${libdir} -lweather_symbol
+Libs: -L${libdir} -lweather-symbol
 Cflags: -I${includedir}
