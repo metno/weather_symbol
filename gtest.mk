@@ -1,6 +1,6 @@
 if MUST_COMPILE_GTEST
 gtestdir=${checkdir}
-gtest_LIBRARIES = libgtest.a libgtest_main.a
+check_LIBRARIES = libgtest.a libgtest_main.a
 
 libgtest_a_SOURCES = 
 libgtest_main_a_SOURCES = 
