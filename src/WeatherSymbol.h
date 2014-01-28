@@ -100,6 +100,12 @@ public:
 	 */
 	std::string name() const;
 
+	/**
+	 * Does the given symbol mean rain or snow in any way?
+	 */
+	bool hasPrecipitation() const;
+
+
 private:
 	static Code getBaseCode_(int hours, double cloud_cover_in_percent, double precipitation_in_mm);
 	static Code getDetailedCode_(Code base, double temperature_in_celsius, bool thunder, double fog_in_percent, bool sun_below_horizon);

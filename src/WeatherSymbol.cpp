@@ -29,6 +29,7 @@
 #include "WeatherSymbol.h"
 #include <boost/assign/list_of.hpp>
 #include <map>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -103,6 +104,30 @@ std::string WeatherSymbol::name() const
 	if ( find == names.end() )
 		return "ERROR";
 	return find->second;
+}
+
+bool WeatherSymbol::hasPrecipitation() const
+{
+	static const std::set<Code> precipitationCodes = boost::assign::list_of
+			(LightRainSun)
+			(LightRainThunderSun)
+			(SleetSun)
+			(SnowSun)
+			(LightRain)
+			(Rain)
+			(RainThunder)
+			(Sleet)
+			(Snow)
+			(SnowThunder)
+			(LightRainSun_Dark)
+			(SleetSunThunder)
+			(SnowSunThunder)
+			(LightRainThunder)
+			(SleetThunder)
+			(Drizzle)
+			(LightSnow);
+
+	return precipitationCodes.find(code()) != precipitationCodes.end();
 }
 
 Code WeatherSymbol::getBaseCode_(int hours, double cloud_cover_in_percent, double precipitation_in_mm)
