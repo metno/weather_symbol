@@ -33,69 +33,69 @@
 
 using namespace weather_symbol;
 
-TEST(SymbolGeneratorTest, tooCloudy)
+TEST(SimpleWeatherSymbolTest, tooCloudy)
 {
 	ASSERT_THROW(WeatherSymbol(6, 110, 0.1), std::runtime_error);
 //	ASSERT_EQ(Error, WeatherSymbol(6, 6, 110, 0.1));
 }
 
-TEST(SymbolGeneratorTest, negativePrecipitation)
+TEST(SimpleWeatherSymbolTest, negativePrecipitation)
 {
 	ASSERT_THROW(WeatherSymbol(6, 10, -0.1), std::runtime_error);
 	//ASSERT_EQ(Error, WeatherSymbol(6, 10, -0.1));
 }
 
-TEST(SymbolGeneratorTest, sunNoRain)
+TEST(SimpleWeatherSymbolTest, sunNoRain)
 {
 	ASSERT_EQ(Sun, WeatherSymbol(6, 10, 0.1));
 }
 
-TEST(SymbolGeneratorTest, sunRain)
+TEST(SimpleWeatherSymbolTest, sunRain)
 {
 	ASSERT_EQ(LightRainSun, WeatherSymbol(6, 10, 0.5));
 }
 
-TEST(SymbolGeneratorTest, lightCloundNoRain)
+TEST(SimpleWeatherSymbolTest, lightCloundNoRain)
 {
 	ASSERT_EQ(LightCloud, WeatherSymbol(6, 30, 0));
 }
 
-TEST(SymbolGeneratorTest, lightCloudRain)
+TEST(SimpleWeatherSymbolTest, lightCloudRain)
 {
 	ASSERT_EQ(LightRainSun, WeatherSymbol(6, 30, 45));
 }
 
-TEST(SymbolGeneratorTest, partlyCloudNoRain)
+TEST(SimpleWeatherSymbolTest, partlyCloudNoRain)
 {
 	ASSERT_EQ(PartlyCloud, WeatherSymbol(6, 50, 0.1));
 }
 
-TEST(SymbolGeneratorTest, partlyCloudLittleRain)
+TEST(SimpleWeatherSymbolTest, partlyCloudLittleRain)
 {
 	ASSERT_EQ(LightRainSun, WeatherSymbol(6, 50, 0.5));
 }
 
-TEST(SymbolGeneratorTest, partlyCloudSomeRain)
+TEST(SimpleWeatherSymbolTest, partlyCloudSomeRain)
 {
 	ASSERT_EQ(LightRain, WeatherSymbol(6, 50, 0.9));
 }
 
-TEST(SymbolGeneratorTest, partlyCloudHeavyRain)
+TEST(SimpleWeatherSymbolTest, partlyCloudHeavyRain)
 {
 	ASSERT_EQ(Rain, WeatherSymbol(6, 50, 7));
 }
 
-TEST(SymbolGeneratorTest, cloudyNoRain)
+TEST(SimpleWeatherSymbolTest, cloudyNoRain)
 {
 	ASSERT_EQ(Cloud, WeatherSymbol(6, 90, 0.1));
 }
 
-TEST(SymbolGeneratorTest, cloudySomeRain)
+TEST(SimpleWeatherSymbolTest, cloudySomeRain)
 {
 	ASSERT_EQ(LightRain, WeatherSymbol(6, 90, 0.9));
 }
 
-TEST(SymbolGeneratorTest, cloudyHeavyRain)
+TEST(SimpleWeatherSymbolTest, cloudyHeavyRain)
 {
 	ASSERT_EQ(Rain, WeatherSymbol(6, 90, 6));
 }
