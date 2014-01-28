@@ -1,8 +1,9 @@
+ACLOCAL_AMFLAGS = -I m4
+
 # Share directory organization
 pkgincludedir = 		$(includedir)/weather_symbol
 pkgconfigdir =			$(libdir)/pkgconfig
 
-ACLOCAL_AMFLAGS = -I m4
 
 AM_CXXFLAGS = -DSYSCONFDIR=\"$(pkgsysconfdir)\" -fPIC 
 AM_LDFLAGS = -fPIC
@@ -28,7 +29,6 @@ CLEANFILES =
 EXTRA_DIST =
 
 include src/make.mk
-#include test/libwdbLoad.mk
-
-
+include test/make.mk
+include gtest.mk
 include debian.mk

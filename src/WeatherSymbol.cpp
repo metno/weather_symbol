@@ -63,22 +63,41 @@ WeatherSymbol::~WeatherSymbol()
 {
 }
 
-Code WeatherSymbol::getCode() const
+Code WeatherSymbol::code() const
 {
 	return code_;
 }
 
-std::string WeatherSymbol::getName() const
+std::string WeatherSymbol::name() const
 {
 	typedef std::map<Code, std::string> NameMap;
 	static const NameMap names = boost::assign::map_list_of
-		(Sun, "Sun")
-		(LightCloud, "LightCloud")
-		(PartlyCloud, "PartlyCloud")
-		(Cloud, "Cloud")
-		(LightRainSun, "LightRainSun")
-		(Rain, "Rain")
-		(HeavyRain, "HeavyRain");
+			(Error, "Error")
+			(Sun, "Sun")
+			(LightCloud, "LightCloud")
+			(PartlyCloud, "PartlyCloud")
+			(Cloud, "Cloud")
+			(LightRainSun, "LightRainSun")
+			(LightRainThunderSun, "LightRainThunderSun")
+			(SleetSun, "SleetSun")
+			(SnowSun, "SnowSun")
+			(LightRain, "LightRain")
+			(Rain, "Rain")
+			(RainThunder, "RainThunder")
+			(Sleet, "Sleet")
+			(Snow, "Snow")
+			(SnowThunder, "SnowThunder")
+			(Fog, "Fog")
+			(Sun_Dark, "Sun_Dark")
+			(LightCloud_Dark, "LightCloud_Dark")
+			(LightRainSun_Dark, "LightRainSun_Dark")
+			(SleetSunThunder, "SleetSunThunder")
+			(SnowSunThunder, "SnowSunThunder")
+			(LightRainThunder, "LightRainThunder")
+			(SleetThunder, "SleetThunder")
+			(Drizzle, "Drizzle")
+			(LightSnow, "LightSnow");
+
 
 	NameMap::const_iterator find = names.find(code_);
 	if ( find == names.end() )
@@ -135,9 +154,9 @@ Code WeatherSymbol::getPrecipitation_(Code cloudiness, int hours, double precipi
 		{
 		case PartlyCloud:
 			if ( precipitation_in_mm >= 5 )
-				return HeavyRain;
-			if ( precipitation_in_mm >= 0.8 )
 				return Rain;
+			if ( precipitation_in_mm >= 0.8 )
+				return LightRain;
 			// fallthrough here!
 		case LightCloud:
 		case Sun:
@@ -147,9 +166,9 @@ Code WeatherSymbol::getPrecipitation_(Code cloudiness, int hours, double precipi
 
 		case Cloud:
 			if ( precipitation_in_mm >= 5 )
-				return HeavyRain;
-			if ( precipitation_in_mm >= 0.4 )
 				return Rain;
+			if ( precipitation_in_mm >= 0.4 )
+				return LightRain;
 			break;
 		}
 

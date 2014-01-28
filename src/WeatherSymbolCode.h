@@ -37,15 +37,31 @@ namespace weather_symbol
 
 enum Code
 {
-	Error,
+	Error = 0,
 	Sun = 1,
-	LightCloud,
-	PartlyCloud,
-	Cloud,
-	LightRainSun,
-	// 6,7,8 omitted
-	Rain = 9,
-	HeavyRain
+	LightCloud = 2,
+	PartlyCloud = 3,
+	Cloud = 4,
+	LightRainSun = 5,
+	LightRainThunderSun = 6,
+	SleetSun = 7,
+	SnowSun = 8,
+	LightRain = 9,
+	Rain = 10,
+	RainThunder = 11,
+	Sleet = 12,
+	Snow = 13,
+	SnowThunder = 14,
+	Fog = 15,
+	Sun_Dark = 16,
+	LightCloud_Dark = 17,
+	LightRainSun_Dark = 18,
+	SleetSunThunder = 20,
+	SnowSunThunder = 21,
+	LightRainThunder = 22,
+	SleetThunder = 23,
+	Drizzle = 24,
+	LightSnow = 25
 };
 
 }

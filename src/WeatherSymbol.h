@@ -45,8 +45,8 @@ public:
 
 	~WeatherSymbol();
 
-	Code getCode() const;
-	std::string getName() const;
+	Code code() const;
+	std::string name() const;
 
 private:
 	static Code getBaseCode_(int hours, double cloud_cover_in_percent, double precipitation_in_mm);
@@ -57,6 +57,16 @@ private:
 
 	Code code_;
 };
+
+inline bool operator == (WeatherSymbol s, Code code)
+{
+	return s.code() == code;
+}
+
+inline bool operator == (Code code, WeatherSymbol s)
+{
+	return s.code() == code;
+}
 
 
 }
