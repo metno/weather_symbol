@@ -114,6 +114,8 @@ Code WeatherSymbol::getBaseCode_(int hours, double cloud_cover_in_percent, doubl
 
 Code WeatherSymbol::getDetailedCode_(Code base, double temperature_in_celsius, bool thunder, double fog_in_percent, bool sun_below_horizon)
 {
+	// TODO
+
 	return base;
 }
 

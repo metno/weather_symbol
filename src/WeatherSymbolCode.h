@@ -35,6 +35,9 @@
 namespace weather_symbol
 {
 
+/**
+ * Available weather symbols
+ */
 enum Code
 {
 	Error = 0,
