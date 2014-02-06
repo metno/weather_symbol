@@ -89,45 +89,77 @@ std::string WeatherSymbol::name() const
 			(Snow, "Snow")
 			(SnowThunder, "SnowThunder")
 			(Fog, "Fog")
-			(Sun_Dark, "Sun_Dark")
-			(LightCloud_Dark, "LightCloud_Dark")
-			(LightRainSun_Dark, "LightRainSun_Dark")
 			(SleetSunThunder, "SleetSunThunder")
 			(SnowSunThunder, "SnowSunThunder")
 			(LightRainThunder, "LightRainThunder")
 			(SleetThunder, "SleetThunder")
+			(DrizzleThunderSun, "DrizzleThunderSun")
+			(RainThunderSun, "RainThunderSun")
+			(LightSleetThunderSun, "LightSleetThunderSun")
+			(HeavySleetThunderSun, "HeavySleetThunderSun")
+			(LightSnowThunderSun, "LightSnowThunderSun")
+			(HeavySnowThunderSun, "HeavySnowThunderSun")
+			(DrizzleThunder, "DrizzleThunder")
+			(LightSleetThunder, "LightSleetThunder")
+			(HeavySleetThunder, "HeavySleetThunder")
+			(LightSnowThunder, "LightSnowThunder")
+			(HeavySnowThunder, "HeavySnowThunder")
+			(DrizzleSun, "DrizzleSun")
+			(RainSun, "RainSun")
+			(LightSleetSun, "LightSleetSun")
+			(HeavySleetSun, "HeavySleetSun")
+			(LightSnowSun, "LightSnowSun")
+			(HeavySnowSun, "HeavySnowSun")
 			(Drizzle, "Drizzle")
-			(LightSnow, "LightSnow");
-
+			(LightSleet, "LightSleet")
+			(HeavySleet, "HeavySleet")
+			(LightSnow, "LightSnow")
+			(HeavySnow, "HeavySnow")
+			(Dark_Sun, "Sun")
+			(Dark_LightCloud, "Dark_LightCloud")
+			(Dark_PartlyCloud, "PartlyCloud")
+			(Dark_LightRainSun, "LightRainSun")
+			(Dark_LightRainThunderSun, "LightRainThunderSun")
+			(Dark_SleetSun, "SleetSun")
+			(Dark_SnowSun, "SnowSun")
+			(Dark_LightRain, "LightRain")
+			(Dark_SleetSunThunder, "SleetSunThunder")
+			(Dark_SnowSunThunder, "SnowSunThunder")
+			(Dark_LightRainThunder, "LightRainThunder")
+			(Dark_DrizzleThunderSun, "DrizzleThunderSun")
+			(Dark_RainThunderSun, "RainThunderSun")
+			(Dark_LightSleetThunderSun, "LightSleetThunderSun")
+			(Dark_HeavySleetThunderSun, "HeavySleetThunderSun")
+			(Dark_LightSnowThunderSun, "LightSnowThunderSun")
+			(Dark_HeavySnowThunderSun, "HeavySnowThunderSun")
+			(Dark_DrizzleSun, "DrizzleSun")
+			(Dark_RainSun, "RainSun")
+			(Dark_LightSleetSun, "LightSleetSun")
+			(Dark_HeavySleetSun, "HeavySleetSun")
+			(Dark_LightSnowSun, "LightSnowSun")
+			(Dark_HeavySnowSun, "HeavySnowSun")
+	;
 
 	NameMap::const_iterator find = names.find(code_);
 	if ( find == names.end() )
-		return "ERROR";
+		return "Unknown";
 	return find->second;
 }
 
 bool WeatherSymbol::hasPrecipitation() const
 {
-	static const std::set<Code> precipitationCodes = boost::assign::list_of
-			(LightRainSun)
-			(LightRainThunderSun)
-			(SleetSun)
-			(SnowSun)
-			(LightRain)
-			(Rain)
-			(RainThunder)
-			(Sleet)
-			(Snow)
-			(SnowThunder)
-			(LightRainSun_Dark)
-			(SleetSunThunder)
-			(SnowSunThunder)
-			(LightRainThunder)
-			(SleetThunder)
-			(Drizzle)
-			(LightSnow);
-
-	return precipitationCodes.find(code()) != precipitationCodes.end();
+	static const std::set<Code> dryCodes = boost::assign::list_of
+		(Error)
+		(Sun)
+		(LightCloud)
+		(PartlyCloud)
+		(Cloud)
+		(Fog)
+		(Dark_Sun)
+		(Dark_LightCloud)
+		(Dark_PartlyCloud)
+	;
+	return dryCodes.find(code()) == dryCodes.end();
 }
 
 Code WeatherSymbol::getBaseCode_(int hours, double cloud_cover_in_percent, double precipitation_in_mm)
