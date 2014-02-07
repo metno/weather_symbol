@@ -47,7 +47,7 @@ public:
 	/**
 	 * Simple instatiation.
 	 *
-	 * @param hours of accumulated precipitation, in hours. Must currently be 6, or a runtime_error will be thrown
+	 * @param hours of accumulated precipitation, in hours. May not be above 6.
 	 * @param cloud_cover_in_percent Amount of clouds in the sky, in range 0-100
 	 * @param precipitation_in_mm Accumulated rainfall for the given number of hours, in millimeters
 	 *
@@ -58,7 +58,7 @@ public:
 	/**
 	 * Complex instatiation.
 	 *
-	 * @param hours of accumulated precipitation, in hours. Must currently be 6, or a runtime_error will be thrown
+	 * @param hours of accumulated precipitation, in hours. May not be above 6.
 	 * @param cloud_cover_in_percent Amount of clouds in the sky, in range 0-100
 	 * @param precipitation_in_mm Accumulated rainfall for the given number of hours, in millimeters
 	 * @param temperature_in_celsius Air temperature, for deciding precipitation phase (rain/sleet/snow)
