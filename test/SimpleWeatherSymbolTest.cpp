@@ -52,7 +52,7 @@ TEST(SimpleWeatherSymbolTest, sunNoRain)
 
 TEST(SimpleWeatherSymbolTest, sunRain)
 {
-	ASSERT_EQ(LightRainSun, WeatherSymbol(6, 10, 0.5));
+	ASSERT_EQ(DrizzleSun, WeatherSymbol(6, 10, 0.5));
 }
 
 TEST(SimpleWeatherSymbolTest, lightCloundNoRain)
@@ -62,7 +62,7 @@ TEST(SimpleWeatherSymbolTest, lightCloundNoRain)
 
 TEST(SimpleWeatherSymbolTest, lightCloudRain)
 {
-	ASSERT_EQ(LightRainSun, WeatherSymbol(6, 30, 45));
+	ASSERT_EQ(RainSun, WeatherSymbol(6, 30, 45));
 }
 
 TEST(SimpleWeatherSymbolTest, partlyCloudNoRain)
@@ -72,17 +72,17 @@ TEST(SimpleWeatherSymbolTest, partlyCloudNoRain)
 
 TEST(SimpleWeatherSymbolTest, partlyCloudLittleRain)
 {
-	ASSERT_EQ(LightRainSun, WeatherSymbol(6, 50, 0.5));
+	ASSERT_EQ(DrizzleSun, WeatherSymbol(6, 50, 0.5));
 }
 
 TEST(SimpleWeatherSymbolTest, partlyCloudSomeRain)
 {
-	ASSERT_EQ(LightRain, WeatherSymbol(6, 50, 0.9));
+	ASSERT_EQ(LightRainSun, WeatherSymbol(6, 50, 0.96));
 }
 
 TEST(SimpleWeatherSymbolTest, partlyCloudHeavyRain)
 {
-	ASSERT_EQ(Rain, WeatherSymbol(6, 50, 7));
+	ASSERT_EQ(RainSun, WeatherSymbol(6, 50, 7));
 }
 
 TEST(SimpleWeatherSymbolTest, cloudyNoRain)
@@ -92,7 +92,7 @@ TEST(SimpleWeatherSymbolTest, cloudyNoRain)
 
 TEST(SimpleWeatherSymbolTest, cloudySomeRain)
 {
-	ASSERT_EQ(LightRain, WeatherSymbol(6, 90, 0.9));
+	ASSERT_EQ(LightRain, WeatherSymbol(6, 90, 0.96));
 }
 
 TEST(SimpleWeatherSymbolTest, cloudyHeavyRain)

@@ -29,6 +29,7 @@
 #include "WeatherSymbol.h"
 #include <boost/assign/list_of.hpp>
 #include <map>
+#include <vector>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -198,45 +199,67 @@ Code WeatherSymbol::getCloudiness_(double cloud_cover_in_percent)
 	return Error;
 }
 
+namespace
+{
+std::vector<double> precipitation_limits(unsigned hours)
+{
+	if ( hours <= 0 or hours > 6 )
+		throw std::runtime_error("Symbol time range must be between 1 and 6 hours");
+
+	double limits_1h[3] = {0.1, 0.25, 0.95};
+	double limits_6h[3] = {0.5, 0.95, 4.95};
+
+	std::vector<double> ret;
+	ret.push_back(0);
+	for ( int i = 0; i < 3; ++ i )
+	{
+		double low =  limits_1h[i];
+		double high = limits_6h[i];
+		double step = (high - low) / 5;
+		double value = (step * (hours-1)) + low;
+		ret.push_back(value);
+	}
+	return ret;
+}
+}
+
 Code WeatherSymbol::getPrecipitation_(Code cloudiness, int hours, double precipitation_in_mm)
 {
-	if ( hours == 6 )
-	{
-		if ( precipitation_in_mm < 0 or precipitation_in_mm > 500 )
-		{
-			std::ostringstream errorMessage;
-			errorMessage << "Invalid value for precipitation: " << precipitation_in_mm << " mm";
-			throw std::runtime_error(errorMessage.str());
-		}
+	if ( precipitation_in_mm < 0 )
+		throw std::runtime_error("Precipitation cannot be below 0");
 
-		switch ( cloudiness )
-		{
-		case PartlyCloud:
-			if ( precipitation_in_mm >= 5 )
-				return Rain;
-			if ( precipitation_in_mm >= 0.8 )
-				return LightRain;
-			// fallthrough here!
-		case LightCloud:
-		case Sun:
-			if ( precipitation_in_mm >= 0.4 )
-				return LightRainSun;
+	std::vector<double> limits = precipitation_limits(hours);
+	int droplets;
+	for ( droplets = 3; droplets >= 0; -- droplets )
+		if ( precipitation_in_mm >= limits[droplets] )
 			break;
 
-		case Cloud:
-			if ( precipitation_in_mm >= 5 )
-				return Rain;
-			if ( precipitation_in_mm >= 0.4 )
-				return LightRain;
-			break;
+	if ( cloudiness == Cloud )
+		switch ( droplets )
+		{
+		case 0:
+		default:
+			return cloudiness;
+		case 1:
+			return Drizzle;
+		case 2:
+			return LightRain;
+		case 3:
+			return Rain;
 		}
-
-		return cloudiness;
-	}
 	else
-	{
-		throw std::runtime_error("Invalid period for symbol: Only 6 hours is currently supported");
-	}
+		switch ( droplets )
+		{
+		case 0:
+		default:
+			return cloudiness;
+		case 1:
+			return DrizzleSun;
+		case 2:
+			return LightRainSun;
+		case 3:
+			return RainSun;
+		}
 }
 
 }
