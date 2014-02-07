@@ -39,27 +39,16 @@ namespace weather_symbol
 {
 
 
-WeatherSymbol::WeatherSymbol(Code code) :
-		code_(code)
-{
-}
-
 WeatherSymbol::WeatherSymbol(int hours, double cloud_cover_in_percent, double precipitation_in_mm)
 {
-	code_ = getBaseCode_(hours, cloud_cover_in_percent, precipitation_in_mm);
+	setBaseCode_(hours, cloud_cover_in_percent, precipitation_in_mm);
 }
 
 WeatherSymbol::WeatherSymbol(int hours, double cloud_cover_in_percent, double precipitation_in_mm, double temperature_in_celsius, bool thunder, double fog_in_percent, bool sun_below_horizon)
 {
-	Code base = getBaseCode_(hours, cloud_cover_in_percent, precipitation_in_mm);
-	getDetailedCode_(base, temperature_in_celsius, thunder, fog_in_percent, sun_below_horizon);
+	setBaseCode_(hours, cloud_cover_in_percent, precipitation_in_mm);
+	setDetailedCode_(temperature_in_celsius, thunder, fog_in_percent, sun_below_horizon);
 }
-
-WeatherSymbol::WeatherSymbol(Code baseCode, double temperature_in_celsius, bool thunder, double fog_in_percent, bool sun_below_horizon)
-{
-	getDetailedCode_(baseCode, temperature_in_celsius, thunder, fog_in_percent, sun_below_horizon);
-}
-
 
 WeatherSymbol::~WeatherSymbol()
 {
@@ -67,7 +56,50 @@ WeatherSymbol::~WeatherSymbol()
 
 Code WeatherSymbol::code() const
 {
-	return code_;
+	Code ret = Error;
+	switch( cloudCover_ )
+	{
+	case 0:
+		ret = Sun; break;
+	case 1:
+		ret = LightCloud; break;
+	case 2:
+		ret = PartlyCloud; break;
+	case 3:
+		ret = Cloud; break;
+	default:
+		throw std::runtime_error("internal error: clouds");
+	}
+	if ( ret == Cloud )
+		switch ( precipitationDroplets_ )
+		{
+		case 0:
+			break;
+		case 1:
+			ret = Drizzle; break;
+		case 2:
+			ret = LightRain; break;
+		case 3:
+			ret = Rain; break;
+		default:
+			throw std::runtime_error("internal error: precipitation");
+		}
+	else
+		switch ( precipitationDroplets_ )
+		{
+		case 0:
+			break;
+		case 1:
+			ret = DrizzleSun; break;
+		case 2:
+			ret = LightRainSun; break;
+		case 3:
+			ret = RainSun; break;
+		default:
+			throw std::runtime_error("internal error: precipitation");
+		}
+
+	return ret;
 }
 
 std::string WeatherSymbol::name() const
@@ -141,7 +173,7 @@ std::string WeatherSymbol::name() const
 			(Dark_HeavySnowSun, "HeavySnowSun")
 	;
 
-	NameMap::const_iterator find = names.find(code_);
+	NameMap::const_iterator find = names.find(code());
 	if ( find == names.end() )
 		return "Unknown";
 	return find->second;
@@ -149,35 +181,22 @@ std::string WeatherSymbol::name() const
 
 bool WeatherSymbol::hasPrecipitation() const
 {
-	static const std::set<Code> dryCodes = boost::assign::list_of
-		(Error)
-		(Sun)
-		(LightCloud)
-		(PartlyCloud)
-		(Cloud)
-		(Fog)
-		(Dark_Sun)
-		(Dark_LightCloud)
-		(Dark_PartlyCloud)
-	;
-	return dryCodes.find(code()) == dryCodes.end();
+	return precipitationDroplets_ > 0;
 }
 
-Code WeatherSymbol::getBaseCode_(int hours, double cloud_cover_in_percent, double precipitation_in_mm)
+
+void WeatherSymbol::setBaseCode_(int hours, double cloud_cover_in_percent, double precipitation_in_mm)
 {
-	Code clouds = getCloudiness_(cloud_cover_in_percent);
-	Code rain = getPrecipitation_(clouds, hours, precipitation_in_mm);
-	return rain;
+	setCloudiness_(cloud_cover_in_percent);
+	setPrecipitation_(hours, precipitation_in_mm);
 }
 
-Code WeatherSymbol::getDetailedCode_(Code base, double temperature_in_celsius, bool thunder, double fog_in_percent, bool sun_below_horizon)
+void WeatherSymbol::setDetailedCode_(double temperature_in_celsius, bool thunder, double fog_in_percent, bool sun_below_horizon)
 {
 	// TODO
-
-	return base;
 }
 
-Code WeatherSymbol::getCloudiness_(double cloud_cover_in_percent)
+void WeatherSymbol::setCloudiness_(double cloud_cover_in_percent)
 {
 	if ( cloud_cover_in_percent < 0 or cloud_cover_in_percent > 100 )
 	{
@@ -187,16 +206,13 @@ Code WeatherSymbol::getCloudiness_(double cloud_cover_in_percent)
 	}
 
 	if ( cloud_cover_in_percent <= 18.75 )
-		return Sun;
+		cloudCover_ = 0;
 	else if ( cloud_cover_in_percent <= 43.75 )
-		return LightCloud;
+		cloudCover_ = 1;
 	else if ( cloud_cover_in_percent <= 81.25 )
-		return PartlyCloud;
+		cloudCover_ = 2;
 	else
-		return Cloud;
-
-	// should never happen:
-	return Error;
+		cloudCover_ = 3;
 }
 
 namespace
@@ -223,7 +239,7 @@ std::vector<double> precipitation_limits(unsigned hours)
 }
 }
 
-Code WeatherSymbol::getPrecipitation_(Code cloudiness, int hours, double precipitation_in_mm)
+void WeatherSymbol::setPrecipitation_(int hours, double precipitation_in_mm)
 {
 	if ( precipitation_in_mm < 0 )
 		throw std::runtime_error("Precipitation cannot be below 0");
@@ -234,32 +250,7 @@ Code WeatherSymbol::getPrecipitation_(Code cloudiness, int hours, double precipi
 		if ( precipitation_in_mm >= limits[droplets] )
 			break;
 
-	if ( cloudiness == Cloud )
-		switch ( droplets )
-		{
-		case 0:
-		default:
-			return cloudiness;
-		case 1:
-			return Drizzle;
-		case 2:
-			return LightRain;
-		case 3:
-			return Rain;
-		}
-	else
-		switch ( droplets )
-		{
-		case 0:
-		default:
-			return cloudiness;
-		case 1:
-			return DrizzleSun;
-		case 2:
-			return LightRainSun;
-		case 3:
-			return RainSun;
-		}
+	precipitationDroplets_ = droplets;
 }
 
 }

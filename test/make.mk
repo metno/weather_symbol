@@ -13,6 +13,5 @@ weather_symbol_test_LDFLAGS = \
 	-pthread
 
 weather_symbol_test_SOURCES = \
-	test/SimpleWeatherSymbolTest.cpp \
-	test/classificationTest.cpp
+	test/SimpleWeatherSymbolTest.cpp
 	
