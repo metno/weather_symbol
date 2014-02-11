@@ -102,82 +102,6 @@ Code WeatherSymbol::code() const
 	return ret;
 }
 
-std::string WeatherSymbol::name() const
-{
-	typedef std::map<Code, std::string> NameMap;
-	static const NameMap names = boost::assign::map_list_of
-			(Error, "Error")
-			(Sun, "Sun")
-			(LightCloud, "LightCloud")
-			(PartlyCloud, "PartlyCloud")
-			(Cloud, "Cloud")
-			(LightRainSun, "LightRainSun")
-			(LightRainThunderSun, "LightRainThunderSun")
-			(SleetSun, "SleetSun")
-			(SnowSun, "SnowSun")
-			(LightRain, "LightRain")
-			(Rain, "Rain")
-			(RainThunder, "RainThunder")
-			(Sleet, "Sleet")
-			(Snow, "Snow")
-			(SnowThunder, "SnowThunder")
-			(Fog, "Fog")
-			(SleetSunThunder, "SleetSunThunder")
-			(SnowSunThunder, "SnowSunThunder")
-			(LightRainThunder, "LightRainThunder")
-			(SleetThunder, "SleetThunder")
-			(DrizzleThunderSun, "DrizzleThunderSun")
-			(RainThunderSun, "RainThunderSun")
-			(LightSleetThunderSun, "LightSleetThunderSun")
-			(HeavySleetThunderSun, "HeavySleetThunderSun")
-			(LightSnowThunderSun, "LightSnowThunderSun")
-			(HeavySnowThunderSun, "HeavySnowThunderSun")
-			(DrizzleThunder, "DrizzleThunder")
-			(LightSleetThunder, "LightSleetThunder")
-			(HeavySleetThunder, "HeavySleetThunder")
-			(LightSnowThunder, "LightSnowThunder")
-			(HeavySnowThunder, "HeavySnowThunder")
-			(DrizzleSun, "DrizzleSun")
-			(RainSun, "RainSun")
-			(LightSleetSun, "LightSleetSun")
-			(HeavySleetSun, "HeavySleetSun")
-			(LightSnowSun, "LightSnowSun")
-			(HeavySnowSun, "HeavySnowSun")
-			(Drizzle, "Drizzle")
-			(LightSleet, "LightSleet")
-			(HeavySleet, "HeavySleet")
-			(LightSnow, "LightSnow")
-			(HeavySnow, "HeavySnow")
-			(Dark_Sun, "Sun")
-			(Dark_LightCloud, "Dark_LightCloud")
-			(Dark_PartlyCloud, "PartlyCloud")
-			(Dark_LightRainSun, "LightRainSun")
-			(Dark_LightRainThunderSun, "LightRainThunderSun")
-			(Dark_SleetSun, "SleetSun")
-			(Dark_SnowSun, "SnowSun")
-			(Dark_LightRain, "LightRain")
-			(Dark_SleetSunThunder, "SleetSunThunder")
-			(Dark_SnowSunThunder, "SnowSunThunder")
-			(Dark_LightRainThunder, "LightRainThunder")
-			(Dark_DrizzleThunderSun, "DrizzleThunderSun")
-			(Dark_RainThunderSun, "RainThunderSun")
-			(Dark_LightSleetThunderSun, "LightSleetThunderSun")
-			(Dark_HeavySleetThunderSun, "HeavySleetThunderSun")
-			(Dark_LightSnowThunderSun, "LightSnowThunderSun")
-			(Dark_HeavySnowThunderSun, "HeavySnowThunderSun")
-			(Dark_DrizzleSun, "DrizzleSun")
-			(Dark_RainSun, "RainSun")
-			(Dark_LightSleetSun, "LightSleetSun")
-			(Dark_HeavySleetSun, "HeavySleetSun")
-			(Dark_LightSnowSun, "LightSnowSun")
-			(Dark_HeavySnowSun, "HeavySnowSun")
-	;
-
-	NameMap::const_iterator find = names.find(code());
-	if ( find == names.end() )
-		return "Unknown";
-	return find->second;
-}
 
 bool WeatherSymbol::hasPrecipitation() const
 {
@@ -251,6 +175,14 @@ void WeatherSymbol::setPrecipitation_(int hours, double precipitation_in_mm)
 			break;
 
 	precipitationDroplets_ = droplets;
+}
+
+bool WeatherSymbol::operator < (const WeatherSymbol & other) const
+{
+	if ( cloudCover_ != other.cloudCover_ )
+		return cloudCover_ < other.cloudCover_;
+
+	return	precipitationDroplets_< other.precipitationDroplets_;
 }
 
 }

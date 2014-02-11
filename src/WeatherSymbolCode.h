@@ -109,6 +109,17 @@ enum Code
 	Dark_HeavySnowSun = 145
 };
 
+/**
+ * Get the associated name for this code
+ */
+std::string name(Code c);
+
+
+/**
+ * Does the given symbol imply precipitation?
+ */
+bool hasPrecipitation(Code c);
+
 }
 
 #endif /* WEATHERSYMBOLCODE_H_ */

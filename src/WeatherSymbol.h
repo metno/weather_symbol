@@ -78,15 +78,12 @@ public:
 	Code code() const;
 
 	/**
-	 * Get a name for this symbol
-	 */
-	std::string name() const;
-
-	/**
 	 * Does the given symbol mean rain or snow in any way?
 	 */
 	bool hasPrecipitation() const;
 
+
+	bool operator < (const WeatherSymbol & other) const;
 
 private:
 	void setBaseCode_(int hours, double cloud_cover_in_percent, double precipitation_in_mm);
@@ -98,6 +95,7 @@ private:
 	short cloudCover_;
 	short precipitationDroplets_;
 };
+
 
 inline bool operator == (const WeatherSymbol & s, Code code)
 {
