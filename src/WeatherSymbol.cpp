@@ -33,21 +33,155 @@
 #include <set>
 #include <sstream>
 #include <stdexcept>
+#include <float.h>
+
+using namespace std;
+
+namespace {
+typedef map<int, map<int, map< bool, weather_symbol::Code> > >  CodeTable;
+
+CodeTable codeTable;
+
+void initCodeTable() {
+	using namespace weather_symbol;
+
+	codeTable[Fog][0][false] = Fog;
+	codeTable[Fog][1][false] = Fog;
+	codeTable[Fog][2][false] = Fog;
+	codeTable[Fog][0][true] = Fog;
+	codeTable[Fog][1][true] = Fog;
+	codeTable[Fog][2][true] = Fog;
+
+	codeTable[Sun][0][false] = Sun;
+	codeTable[Sun][1][false] = Sun;
+	codeTable[Sun][2][false] = Sun;
+	codeTable[Sun][0][true] = Sun;
+	codeTable[Sun][1][true] = Sun;
+	codeTable[Sun][2][true] = Sun;
+
+	codeTable[LightCloud][0][false] = LightCloud;
+	codeTable[LightCloud][1][false] = LightCloud;
+	codeTable[LightCloud][2][false] = LightCloud;
+	codeTable[LightCloud][0][true] = LightCloud;
+	codeTable[LightCloud][1][true] = LightCloud;
+	codeTable[LightCloud][2][true] = LightCloud;
+
+	codeTable[PartlyCloud][0][false] = PartlyCloud;
+	codeTable[PartlyCloud][1][false] = PartlyCloud;
+	codeTable[PartlyCloud][2][false] = PartlyCloud;
+	codeTable[PartlyCloud][0][true] = PartlyCloud;
+	codeTable[PartlyCloud][1][true] = PartlyCloud;
+	codeTable[PartlyCloud][2][true] = PartlyCloud;
+
+	codeTable[Cloud][0][false] = Cloud;
+	codeTable[Cloud][1][false] = Cloud;
+	codeTable[Cloud][2][false] = Cloud;
+	codeTable[Cloud][0][true] = Cloud;
+	codeTable[Cloud][1][true] = Cloud;
+	codeTable[Cloud][2][true] = Cloud;
+
+	codeTable[Drizzle][0][false] = Drizzle;
+	codeTable[Drizzle][1][false] = LightSleet;
+	codeTable[Drizzle][2][false] = LightSnow;
+	codeTable[Drizzle][0][true] = DrizzleThunder;
+	codeTable[Drizzle][1][true] = LightSleetThunder;
+	codeTable[Drizzle][2][true] = LightSnowThunder;
+
+	codeTable[LightRain][0][false]= LightRain;
+	codeTable[LightRain][1][false]= Sleet;
+	codeTable[LightRain][2][false]= Snow;
+	codeTable[LightRain][0][true]= LightRainThunder;
+	codeTable[LightRain][1][true]= SleetThunder;
+	codeTable[LightRain][2][true]= SnowThunder;
+
+	codeTable[Rain][0][false] = Rain;
+	codeTable[Rain][1][false] = HeavySleet;
+	codeTable[Rain][2][false] = HeavySnow;
+	codeTable[Rain][0][true] = RainThunder;
+	codeTable[Rain][1][true] = HeavySleetThunder;
+	codeTable[Rain][2][true] = HeavySnowThunder;
+
+	codeTable[DrizzleSun][0][false] = DrizzleSun;
+	codeTable[DrizzleSun][1][false] = LightSleetSun;
+	codeTable[DrizzleSun][2][false] = LightSnowSun;
+	codeTable[DrizzleSun][0][true] = DrizzleThunderSun;
+	codeTable[DrizzleSun][1][true] = LightSleetThunderSun;
+	codeTable[DrizzleSun][2][true] = LightSnowThunderSun;
+
+	codeTable[LightRainSun][0][false] = LightRainSun;
+	codeTable[LightRainSun][1][false] = SleetSun;
+	codeTable[LightRainSun][2][false] = SnowSun;
+	codeTable[LightRainSun][0][true] = LightRainThunderSun;
+	codeTable[LightRainSun][1][true] = SleetSunThunder;
+	codeTable[LightRainSun][2][true] = SnowSunThunder;
+
+	codeTable[RainSun][0][false] = RainSun;
+	codeTable[RainSun][1][false] = HeavySleetSun;
+	codeTable[RainSun][2][false] = HeavySnowSun;
+	codeTable[RainSun][0][true] = RainThunderSun;
+	codeTable[RainSun][1][true] = HeavySleetThunderSun;
+	codeTable[RainSun][2][true] = HeavySnowThunderSun;
+}
+
+
+}
 
 
 namespace weather_symbol
 {
 
+WeatherData::
+WeatherData()
+: totalCloudCover( FLT_MAX ),
+  lowCloudCover( FLT_MAX ),
+  mediumCloudCover( FLT_MAX ),
+  highCloudCover( FLT_MAX ),
+  precipitation( FLT_MAX ),
+  maxPrecipitation( FLT_MAX ),
+  minPrecipitation( FLT_MAX ),
+  thunder( false ),
+  fog( false ),
+  temperature( FLT_MAX ),
+  wetBulbTemperature( FLT_MAX )
+{
+}
+
 
 WeatherSymbol::WeatherSymbol(int hours, double cloud_cover_in_percent, double precipitation_in_mm)
+	: precipitationPhase_( 0 ), thunder_( false ), fog_( false )
 {
 	setBaseCode_(hours, cloud_cover_in_percent, precipitation_in_mm);
 }
 
-WeatherSymbol::WeatherSymbol(int hours, double cloud_cover_in_percent, double precipitation_in_mm, double temperature_in_celsius, bool thunder, double fog_in_percent, bool sun_below_horizon)
+WeatherSymbol::WeatherSymbol(int hours,
+		                    double cloud_cover_in_percent, double precipitation_in_mm,
+		                    double temperature_in_celsius, bool thunder, bool fog )
+	: precipitationPhase_( 0 ), thunder_( false ), fog_( false )
 {
 	setBaseCode_(hours, cloud_cover_in_percent, precipitation_in_mm);
-	setDetailedCode_(temperature_in_celsius, thunder, fog_in_percent, sun_below_horizon);
+	WeatherData weatherData;
+	weatherData.totalCloudCover = cloud_cover_in_percent;
+	weatherData.precipitation = precipitation_in_mm;
+	weatherData.thunder = thunder;
+	weatherData.fog = fog;
+	setDetailedCode_( hours, weatherData );
+}
+
+WeatherSymbol::WeatherSymbol( int hours, const WeatherData &weatherData )
+	: precipitationPhase_( 0 ), thunder_( false ), fog_( false )
+{
+	setBaseCode_( hours, weatherData.totalCloudCover, weatherData.precipitation );
+	setDetailedCode_( hours, weatherData );
+}
+
+WeatherSymbol::WeatherSymbol(int hours, Code base_code, const WeatherData &weather_data )
+{
+	CodeTable::const_iterator itBaseCode = codeTable.find( base_code );
+
+	if( itBaseCode == codeTable.end() )
+		throw range_error( name( base_code ) + " is not a base code.");
+
+	setDetailedCode_( hours, weather_data );
 }
 
 WeatherSymbol::~WeatherSymbol()
@@ -57,6 +191,13 @@ WeatherSymbol::~WeatherSymbol()
 Code WeatherSymbol::code() const
 {
 	Code ret = Error;
+
+	if( codeTable.empty() )
+		initCodeTable();
+
+	if( fog_ )
+		return Fog;
+
 	switch( cloudCover_ )
 	{
 	case 0:
@@ -70,6 +211,7 @@ Code WeatherSymbol::code() const
 	default:
 		throw std::runtime_error("internal error: clouds");
 	}
+
 	if ( ret == Cloud )
 		switch ( precipitationDroplets_ )
 		{
@@ -99,6 +241,11 @@ Code WeatherSymbol::code() const
 			throw std::runtime_error("internal error: precipitation");
 		}
 
+	ret = codeTable[ret][precipitationPhase_][thunder_];
+
+	if( ret == Error )
+		throw std::runtime_error("internal error: Add precipitation phase and thunder.");
+
 	return ret;
 }
 
@@ -115,9 +262,47 @@ void WeatherSymbol::setBaseCode_(int hours, double cloud_cover_in_percent, doubl
 	setPrecipitation_(hours, precipitation_in_mm);
 }
 
-void WeatherSymbol::setDetailedCode_(double temperature_in_celsius, bool thunder, double fog_in_percent, bool sun_below_horizon)
+void WeatherSymbol::setDetailedCode_( int hours, const WeatherData &wd )
 {
-	// TODO
+	thunder_ = false;
+
+	//Test if cloud cover is dominated by high clouds.
+	if( wd.lowCloudCover <= 18.75 && wd.mediumCloudCover <= 18.75 && !wd.fog &&
+		cloudCover_ == 3)
+		cloudCover_ = 2;
+
+	//If there is a chance for precipitation, set the cloud cover
+	//to at least partly cloud.
+	if( wd.maxPrecipitation != FLT_MAX &&
+		cloudCover_ == 0 && wd.maxPrecipitation > 0 )
+		cloudCover_ = 2;
+
+	if( wd.fog && precipitationDroplets_ == 0 )
+		fog_ = true;
+
+	//Set the precipitation phase (rain, sleet, snow).
+	//There is a choice between two temperature variables
+	//with two different limits, wetbulb temperature and
+	//air temperature. It is expected that the wetbulb temperature
+	//give best result.
+	if( precipitationDroplets_ > 0 ) {
+		thunder_ = wd.thunder;
+		if( wd.wetBulbTemperature != FLT_MAX  ) {
+			if( wd.wetBulbTemperature <= 0.5 )
+				precipitationPhase_ = 2;
+			else if( wd.wetBulbTemperature <= 1.0 )
+				precipitationPhase_ = 1;
+			else
+				precipitationPhase_ = 0;
+		} else if( wd.temperature != FLT_MAX ) {
+			if( wd.temperature <= 0.5 )
+				precipitationPhase_ = 2;
+			else if( wd.temperature <= 1.5 )
+				precipitationPhase_ = 1;
+			else
+				precipitationPhase_ = 0;
+		}
+	}
 }
 
 void WeatherSymbol::setCloudiness_(double cloud_cover_in_percent)
@@ -129,11 +314,11 @@ void WeatherSymbol::setCloudiness_(double cloud_cover_in_percent)
 		throw std::runtime_error(errorMessage.str());
 	}
 
-	if ( cloud_cover_in_percent <= 18.75 )
+	if ( cloud_cover_in_percent <= 13 )
 		cloudCover_ = 0;
-	else if ( cloud_cover_in_percent <= 43.75 )
+	else if ( cloud_cover_in_percent <= 38 )
 		cloudCover_ = 1;
-	else if ( cloud_cover_in_percent <= 81.25 )
+	else if ( cloud_cover_in_percent <= 86 )
 		cloudCover_ = 2;
 	else
 		cloudCover_ = 3;

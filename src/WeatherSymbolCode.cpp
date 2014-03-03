@@ -90,7 +90,6 @@ std::string name(Code c)
 			(Dark_LightRain, "LightRain")
 			(Dark_SleetSunThunder, "SleetSunThunder")
 			(Dark_SnowSunThunder, "SnowSunThunder")
-			(Dark_LightRainThunder, "LightRainThunder")
 			(Dark_DrizzleThunderSun, "DrizzleThunderSun")
 			(Dark_RainThunderSun, "RainThunderSun")
 			(Dark_LightSleetThunderSun, "LightSleetThunderSun")
@@ -128,4 +127,118 @@ bool hasPrecipitation(Code c)
 	return precipitationFreeCodes.find(c) == precipitationFreeCodes.end();
 }
 
+bool hasThunder( Code c )
+{
+
+typedef std::set<Code> CodeSet;
+	static const CodeSet names = boost::assign::list_of
+			(LightRainThunderSun)
+			(RainThunder)
+			(SnowThunder)
+			(SleetSunThunder)
+			(SnowSunThunder)
+			(LightRainThunder)
+			(SleetThunder)
+			(DrizzleThunderSun)
+			(RainThunderSun)
+			(LightSleetThunderSun)
+			(HeavySleetThunderSun)
+			(LightSnowThunderSun)
+			(HeavySnowThunderSun)
+			(DrizzleThunder)
+			(LightSleetThunder)
+			(HeavySleetThunder)
+			(LightSnowThunder)
+			(HeavySnowThunder)
+			(Dark_LightRainThunderSun)
+			(Dark_SleetSunThunder)
+			(Dark_SnowSunThunder)
+			(Dark_DrizzleThunderSun)
+			(Dark_RainThunderSun)
+			(Dark_LightSleetThunderSun)
+			(Dark_HeavySleetThunderSun)
+			(Dark_LightSnowThunderSun)
+			(Dark_HeavySnowThunderSun)
+	;
+
+	CodeSet::const_iterator find = names.find(c);
+	return find != names.end();
+}
+
+Code
+codeIfSunBelowHorizon( Code  code )
+{
+	typedef std::map<Code, Code> SymbolMap;
+	static const SymbolMap belowHorizon = boost::assign::map_list_of
+			(Error, Error)
+			(Sun, Dark_Sun)
+			(LightCloud, Dark_LightCloud)
+			(PartlyCloud, Dark_PartlyCloud)
+			(Cloud, Cloud)
+			(LightRainSun, Dark_LightRainSun)
+			(LightRainThunderSun, Dark_LightRainThunderSun)
+			(SleetSun, Dark_SleetSun)
+			(SnowSun, Dark_SnowSun)
+			(LightRain, Dark_LightRain)
+			(Rain, Rain)
+			(RainThunder, RainThunder)
+			(Sleet, Sleet)
+			(Snow, Snow)
+			(SnowThunder, SnowThunder)
+			(Fog, Fog)
+			(SleetSunThunder, Dark_SleetSunThunder)
+			(SnowSunThunder, Dark_SnowSunThunder)
+			(SleetThunder, SleetThunder)
+			(DrizzleThunderSun, Dark_DrizzleThunderSun)
+			(RainThunderSun, Dark_RainThunderSun)
+			(LightSleetThunderSun, Dark_LightSleetThunderSun)
+			(HeavySleetThunderSun, Dark_HeavySleetThunderSun)
+			(LightSnowThunderSun, Dark_LightSnowThunderSun)
+			(HeavySnowThunderSun, Dark_HeavySnowThunderSun)
+			(DrizzleThunder, DrizzleThunder)
+			(LightSleetThunder, LightSleetThunder)
+			(HeavySleetThunder, HeavySleetThunder)
+			(LightSnowThunder, LightSnowThunder)
+			(HeavySnowThunder, HeavySnowThunder)
+			(DrizzleSun, Dark_DrizzleSun)
+			(RainSun, Dark_RainSun)
+			(LightSleetSun, Dark_LightSleetSun)
+			(HeavySleetSun, Dark_HeavySleetSun)
+			(LightSnowSun, Dark_LightSnowSun)
+			(HeavySnowSun, Dark_HeavySnowSun)
+			(Drizzle, Drizzle)
+			(LightSleet, LightSleet)
+			(HeavySleet, HeavySleet)
+			(LightSnow, LightSnow)
+			(HeavySnow, HeavySnow)
+			(Dark_Sun, Dark_Sun)
+			(Dark_LightCloud, Dark_LightCloud)
+			(Dark_PartlyCloud, Dark_PartlyCloud)
+			(Dark_LightRainSun, Dark_LightRainSun)
+			(Dark_LightRainThunderSun, Dark_LightRainThunderSun)
+			(Dark_SleetSun, Dark_SleetSun)
+			(Dark_SnowSun, Dark_SnowSun)
+			(Dark_LightRain, Dark_LightRain)
+			(Dark_SleetSunThunder, Dark_SleetSunThunder)
+			(Dark_SnowSunThunder, Dark_SnowSunThunder)
+			(Dark_DrizzleThunderSun, Dark_DrizzleThunderSun)
+			(Dark_RainThunderSun, Dark_RainThunderSun)
+			(Dark_LightSleetThunderSun, Dark_LightSleetThunderSun)
+			(Dark_HeavySleetThunderSun, Dark_HeavySleetThunderSun)
+			(Dark_LightSnowThunderSun, Dark_LightSnowThunderSun)
+			(Dark_HeavySnowThunderSun, Dark_HeavySnowThunderSun)
+			(Dark_DrizzleSun, Dark_DrizzleSun)
+			(Dark_RainSun, Dark_RainSun)
+			(Dark_LightSleetSun, Dark_LightSleetSun)
+			(Dark_HeavySleetSun, Dark_HeavySleetSun)
+			(Dark_LightSnowSun, Dark_LightSnowSun)
+			(Dark_HeavySnowSun, Dark_HeavySnowSun)
+	;
+
+	SymbolMap::const_iterator find = belowHorizon.find(code);
+	if ( find == belowHorizon.end() )
+		return Error;
+	return find->second;
+
+}
 }

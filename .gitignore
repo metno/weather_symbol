@@ -24,3 +24,8 @@ m4/lt~obsolete.m4
 
 build/
 
+/config.log
+/config.status
+/libtool
+/libweather-symbol.pc
+/Makefile

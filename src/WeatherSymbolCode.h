@@ -94,7 +94,6 @@ enum Code
 	Dark_LightRain = 109,
 	Dark_SleetSunThunder = 120,
 	Dark_SnowSunThunder = 121,
-	Dark_LightRainThunder = 122,
 	Dark_DrizzleThunderSun = 124,
 	Dark_RainThunderSun = 125,
 	Dark_LightSleetThunderSun = 126,
@@ -119,6 +118,14 @@ std::string name(Code c);
  * Does the given symbol imply precipitation?
  */
 bool hasPrecipitation(Code c);
+
+
+/**
+ * Does the given symbol imply thunder?
+ */
+bool hasThunder(Code c);
+
+Code codeIfSunBelowHorizon( Code  code );
 
 }
 
