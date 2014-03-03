@@ -267,7 +267,7 @@ void WeatherSymbol::setDetailedCode_( int hours, const WeatherData &wd )
 	thunder_ = false;
 
 	//Test if cloud cover is dominated by high clouds.
-	if( wd.lowCloudCover <= 18.75 && wd.mediumCloudCover <= 18.75 && !wd.fog &&
+	if( wd.lowCloudCover <= 13 && wd.mediumCloudCover <= 13 && !wd.fog &&
 		cloudCover_ == 3)
 		cloudCover_ = 2;
 
