@@ -285,7 +285,7 @@ void WeatherSymbol::setBaseCodeFromCode_( weather_symbol::Code base_code )
 	case LightRainSun: cloudCover_ = 2; precipitationDroplets_ = 2; break;
 	case RainSun: cloudCover_ = 2; precipitationDroplets_ = 3; break;
 	default:
-		throw std::range_error( "Not a valid base code.");
+		throw std::range_error( name(base_code) + " - not a valid base code.");
 	}
 
 }
