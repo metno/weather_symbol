@@ -151,8 +151,8 @@ public:
 
 private:
 	void setBaseCode_(int hours, double cloud_cover_in_percent, double precipitation_in_mm);
+	void setBaseCodeFromCode_( weather_symbol::Code base_code );
 	void setDetailedCode_( int hours,  const WeatherData &weatherData );
-
 	void setCloudiness_(double cloud_cover_in_percent);
 	void setPrecipitation_(int hours, double precipitation_in_mm);
 

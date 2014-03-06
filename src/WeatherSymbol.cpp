@@ -175,12 +175,14 @@ WeatherSymbol::WeatherSymbol( int hours, const WeatherData &weatherData )
 }
 
 WeatherSymbol::WeatherSymbol(int hours, Code base_code, const WeatherData &weather_data )
+: precipitationPhase_( 0 ), thunder_( false ), fog_( false )
 {
 	CodeTable::const_iterator itBaseCode = codeTable.find( base_code );
 
 	if( itBaseCode == codeTable.end() )
 		throw range_error( name( base_code ) + " is not a base code.");
 
+	setBaseCodeFromCode_( base_code );
 	setDetailedCode_( hours, weather_data );
 }
 
@@ -261,6 +263,33 @@ void WeatherSymbol::setBaseCode_(int hours, double cloud_cover_in_percent, doubl
 	setCloudiness_(cloud_cover_in_percent);
 	setPrecipitation_(hours, precipitation_in_mm);
 }
+
+void WeatherSymbol::setBaseCodeFromCode_( weather_symbol::Code base_code )
+{
+	precipitationDroplets_ = 0;
+	precipitationPhase_ = 0;
+	cloudCover_ = 0;
+	fog_ = false;
+	thunder_ = false;
+
+	switch( base_code ) {
+	case Fog: fog_ = true; break;
+	case Sun: cloudCover_ = 0; break;
+	case LightCloud: cloudCover_ = 1; break;
+	case PartlyCloud: cloudCover_ = 2; break;
+	case Cloud: cloudCover_ = 3; break;
+	case Drizzle: cloudCover_ = 2; precipitationDroplets_ = 1; break;
+	case LightRain: cloudCover_ = 2; precipitationDroplets_ = 2; break;
+	case Rain: cloudCover_ = 3; precipitationDroplets_ = 3; break;
+	case DrizzleSun: cloudCover_ = 2; precipitationDroplets_ = 1; break;
+	case LightRainSun: cloudCover_ = 2; precipitationDroplets_ = 2; break;
+	case RainSun: cloudCover_ = 2; precipitationDroplets_ = 3; break;
+	default:
+		throw std::range_error( "Not a valid base code.");
+	}
+
+}
+
 
 void WeatherSymbol::setDetailedCode_( int hours, const WeatherData &wd )
 {
