@@ -30,7 +30,6 @@
 #ifndef WEATHERSYMBOLCODE_H_
 #define WEATHERSYMBOLCODE_H_
 
-#include <string>
 
 namespace weather_symbol
 {
@@ -107,25 +106,6 @@ enum Code
 	Dark_LightSnowSun = 144,
 	Dark_HeavySnowSun = 145
 };
-
-/**
- * Get the associated name for this code
- */
-std::string name(Code c);
-
-
-/**
- * Does the given symbol imply precipitation?
- */
-bool hasPrecipitation(Code c);
-
-
-/**
- * Does the given symbol imply thunder?
- */
-bool hasThunder(Code c);
-
-Code codeIfSunBelowHorizon( Code  code );
 
 }
 
