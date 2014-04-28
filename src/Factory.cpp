@@ -165,8 +165,8 @@ Code Factory::getSymbol(Code base_code, const WeatherData & weather_data) const
 	case LightCloud: cloudCover = 1; break;
 	case PartlyCloud: cloudCover = 2; break;
 	case Cloud: cloudCover = 3; break;
-	case Drizzle: cloudCover = 2; precipitationDroplets = 1; break;
-	case LightRain: cloudCover = 2; precipitationDroplets = 2; break;
+	case Drizzle: cloudCover = 3; precipitationDroplets = 1; break;
+	case LightRain: cloudCover = 3; precipitationDroplets = 2; break;
 	case Rain: cloudCover = 3; precipitationDroplets = 3; break;
 	case DrizzleSun: cloudCover = 2; precipitationDroplets = 1; break;
 	case LightRainSun: cloudCover = 2; precipitationDroplets = 2; break;
@@ -181,14 +181,16 @@ Code Factory::getSymbol(Code base_code, const WeatherData & weather_data) const
 Code Factory::getSymbol(const WeatherData & weather_data) const
 {
 	int cloudCover = getCloudiness_(weather_data.totalCloudCover);
+	int precipitationDroplets = getPrecipitation_(weather_data.precipitation);
+
 	//Test if cloud cover is dominated by high clouds. If so: max clouds is reduced
 	try
 	{
-		if( cloudCover == 3 and
-				not weather_data.fog and
-				getCloudiness_(weather_data.lowCloudCover) == 0 and
-				getCloudiness_(weather_data.mediumCloudCover) == 0
-			)
+		if( cloudCover == 3 and precipitationDroplets == 0 and
+			not weather_data.fog and
+			getCloudiness_(weather_data.lowCloudCover) == 0 and
+			getCloudiness_(weather_data.mediumCloudCover) == 0
+		  )
 			cloudCover = 2;
 	}
 	catch ( std::exception & )
@@ -198,8 +200,6 @@ Code Factory::getSymbol(const WeatherData & weather_data) const
 	//If there is a chance for precipitation, set the cloud cover to at least partly cloud.
 	if( weather_data.maxPrecipitation != WeatherData::undefined() && weather_data.maxPrecipitation > 0 && cloudCover < 2 )
 		cloudCover = 2;
-
-	int precipitationDroplets = getPrecipitation_(weather_data.precipitation);
 
 	return getCode_(weather_data, cloudCover, precipitationDroplets);
 }
