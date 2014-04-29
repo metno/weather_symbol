@@ -1,3 +1,10 @@
+libweather-symbol (0.4.0-1) precise; urgency=low
+
+  * new version
+  * Add "winter darknes" to all symbols names that need them.
+  
+ -- Børge Moe <borge.moe@met.no>  Tue, 29 Apr 2014 12:16:45 +0200
+
 libweather-symbol (0.3.1-1) precise; urgency=low
 
   * new version
