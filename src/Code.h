@@ -90,7 +90,6 @@ enum Code
 	Dark_LightRainThunderSun = 106,
 	Dark_SleetSun = 107,
 	Dark_SnowSun = 108,
-	Dark_LightRain = 109,
 	Dark_SleetSunThunder = 120,
 	Dark_SnowSunThunder = 121,
 	Dark_DrizzleThunderSun = 124,
