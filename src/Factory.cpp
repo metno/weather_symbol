@@ -333,6 +333,7 @@ std::vector<double> precipitation_limits(unsigned hours)
 	{ 0.5, 0.95, 4.95 };
 
 	std::vector<double> ret;
+	ret.reserve( 4 );
 	ret.push_back(0);
 	for (int i = 0; i < 3; ++i)
 	{
