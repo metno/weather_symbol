@@ -208,7 +208,6 @@ TEST(SimpleWeatherSymbolTest, sunBelowHorizon )
 	ASSERT_EQ(i->codeIfSunBelowHorizon(LightRainThunderSun), Dark_LightRainThunderSun);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(SleetSun), Dark_SleetSun);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(SnowSun), Dark_SnowSun);
-	ASSERT_EQ(i->codeIfSunBelowHorizon(LightRain), Dark_LightRain);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(Rain), Rain);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(RainThunder), RainThunder);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(Sleet), Sleet);
@@ -247,7 +246,6 @@ TEST(SimpleWeatherSymbolTest, sunBelowHorizon )
 	ASSERT_EQ(i->codeIfSunBelowHorizon(Dark_LightRainThunderSun), Dark_LightRainThunderSun);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(Dark_SleetSun), Dark_SleetSun);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(Dark_SnowSun), Dark_SnowSun);
-	ASSERT_EQ(i->codeIfSunBelowHorizon(Dark_LightRain), Dark_LightRain);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(Dark_SleetSunThunder), Dark_SleetSunThunder);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(Dark_SnowSunThunder), Dark_SnowSunThunder);
 	ASSERT_EQ(i->codeIfSunBelowHorizon(Dark_DrizzleThunderSun), Dark_DrizzleThunderSun);
