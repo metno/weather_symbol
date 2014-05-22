@@ -1,3 +1,10 @@
+libweather-symbol (0.4.1-1) precise; urgency=low
+
+  * new version
+  * Adjust limits for maxPrecipitation.
+  
+ -- Børge Moe <borge.moe@met.no>  Thu, 22 Apr 2014 13:30:00 +0200
+
 libweather-symbol (0.4.0-1) precise; urgency=low
 
   * new version
