@@ -198,7 +198,7 @@ Code Factory::getSymbol(const WeatherData & weather_data) const
 		// ignored: This will happen if data were missing for low or medium cloud cover
 	}
 	//If there is a chance for precipitation, set the cloud cover to at least partly cloud.
-	if( weather_data.maxPrecipitation != WeatherData::undefined() && weather_data.maxPrecipitation > 0 && cloudCover < 2 )
+	if( weather_data.maxPrecipitation != WeatherData::undefined() && weather_data.maxPrecipitation > 0.1 && cloudCover < 2 )
 		cloudCover = 2;
 
 	return getCode_(weather_data, cloudCover, precipitationDroplets);
