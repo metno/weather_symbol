@@ -68,6 +68,16 @@ public:
 	bool hasThunder(Code c) const;
 
 	/**
+	 * If the symbol has thunder, return the same symbol without thunder.
+	 */
+	Code turnOffThunder( Code c ) const;
+
+	/**
+	 * If the symbol has no thunder, return the same symbol with thunder.
+	 */
+	Code turnOnThunder( Code c ) const;
+
+	/**
 	 * Get the code to use if sun is below horizon
 	 */
 	Code codeIfSunBelowHorizon(Code  code) const;
@@ -81,6 +91,8 @@ private:
 	NameMap names;
 	CodeSet precipitationFreeCodes;
 	CodeSet thunderCodes;
+	SymbolMap thunderToNoThunderCodes;
+	SymbolMap noThunderToThunderCodes;
 	SymbolMap sunBelowHorizonCodes;
 	CodeTable codeTable;
 

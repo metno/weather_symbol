@@ -28,9 +28,27 @@
 
 #include "Interpretor.h"
 #include <boost/assign/list_of.hpp>
+#include <utility>
+#include <algorithm>
+
+using namespace std;
 
 namespace weather_symbol
 {
+
+namespace {
+
+template < typename T>
+T swapKeyVal( const  T &p  )
+{
+	T tmp;
+	for( typename T::const_iterator it=p.begin(); it != p.end(); ++it )
+		tmp.insert(make_pair( it->second, it->first ) );
+
+	return tmp;
+}
+
+}
 
 Interpretor::Interpretor()
 {
@@ -142,6 +160,37 @@ Interpretor::Interpretor()
 		(Dark_HeavySnowThunderSun)
 		;
 
+	thunderToNoThunderCodes = boost::assign::map_list_of
+			(LightRainThunderSun, LightRainSun )
+			(RainThunder, Rain)
+			(SnowThunder, Snow)
+			(SleetSunThunder, SleetSun )
+			(SnowSunThunder, SnowSun)
+			(LightRainThunder,LightRain)
+			(SleetThunder, Sleet)
+			(DrizzleThunderSun, DrizzleSun)
+			(RainThunderSun, RainSun)
+			(LightSleetThunderSun, LightSleetSun)
+			(HeavySleetThunderSun, HeavySleetSun)
+			(LightSnowThunderSun, LightSnowSun)
+			(HeavySnowThunderSun, HeavySnowSun)
+			(DrizzleThunder, Drizzle)
+			(LightSleetThunder, LightSleet)
+			(HeavySleetThunder, HeavySleet)
+			(LightSnowThunder, LightSnow)
+			(HeavySnowThunder, HeavySnow)
+			(Dark_LightRainThunderSun, Dark_LightRainSun)
+			(Dark_SleetSunThunder, Dark_SleetSun)
+			(Dark_SnowSunThunder, Dark_SnowSun)
+			(Dark_DrizzleThunderSun, Dark_DrizzleSun)
+			(Dark_RainThunderSun, Dark_RainSun)
+			(Dark_LightSleetThunderSun, Dark_LightSleetSun)
+			(Dark_HeavySleetThunderSun, Dark_HeavySleetSun)
+			(Dark_LightSnowThunderSun, Dark_LightSnowSun)
+			(Dark_HeavySnowThunderSun, Dark_HeavySnowSun)
+			;
+	noThunderToThunderCodes = swapKeyVal( thunderToNoThunderCodes );
+
 	sunBelowHorizonCodes = boost::assign::map_list_of
 		(Error, Error)
 		(Sun, Dark_Sun)
@@ -205,6 +254,8 @@ Interpretor::Interpretor()
 		(Dark_LightSnowSun, Dark_LightSnowSun)
 		(Dark_HeavySnowSun, Dark_HeavySnowSun)
 		;
+
+
 }
 
 Interpretor::~Interpretor()
@@ -234,6 +285,25 @@ bool Interpretor::hasThunder( Code c ) const
 	CodeSet::const_iterator find = thunderCodes.find(c);
 	return find != thunderCodes.end();
 }
+
+
+Code Interpretor::turnOffThunder( Code c ) const
+{
+	SymbolMap::const_iterator find = thunderToNoThunderCodes.find(c);
+	if( find != thunderToNoThunderCodes.end() ) return find->second;
+	else return c;
+}
+
+/**
+ * If the symbol has no thunder, return the same symbol with thunder.
+ */
+Code Interpretor::turnOnThunder( Code c ) const
+{
+	SymbolMap::const_iterator find = noThunderToThunderCodes.find( c );
+	if( find != noThunderToThunderCodes.end() ) return find->second;
+	else return c;
+}
+
 
 Code
 Interpretor::codeIfSunBelowHorizon( Code  code ) const

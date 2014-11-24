@@ -103,6 +103,19 @@ TEST(SimpleWeatherSymbolTest, cloudyHeavyRain)
 	ASSERT_EQ(Rain, factory.getSymbol(90, 6));
 }
 
+TEST( SimpleWeatherSymbolTest, turnOffThunder )
+{
+	ASSERT_EQ( Rain, factory.interpretor()->turnOffThunder(RainThunder) );
+	ASSERT_EQ( Sun, factory.interpretor()->turnOffThunder(Sun) );
+}
+
+TEST( SimpleWeatherSymbolTest, turnOnThunder )
+{
+	ASSERT_EQ( RainThunder, factory.interpretor()->turnOnThunder(Rain) );
+	ASSERT_EQ( Sun, factory.interpretor()->turnOnThunder(Sun) );
+}
+
+
 TEST(SimpleWeatherSymbolTest, dominatedByHighClouds )
 {
 	WeatherData wd;
