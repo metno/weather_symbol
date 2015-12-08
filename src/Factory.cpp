@@ -373,9 +373,9 @@ int Factory::getPrecipitationPhase_(double temperature_in_celsius) const
 
 int Factory::getPrecipitationPhaseFromWetBulb_(double wet_bulb_temperature_in_celsius) const
 {
-	if( wet_bulb_temperature_in_celsius <= 0.5 )
+	if( wet_bulb_temperature_in_celsius < 0 )
 		return 2;
-	else if( wet_bulb_temperature_in_celsius <= 1.0 )
+	else if( wet_bulb_temperature_in_celsius <= 1 )
 		return 1;
 
 	return 0;

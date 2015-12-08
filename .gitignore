@@ -29,3 +29,6 @@ build/
 /libtool
 /libweather-symbol.pc
 /Makefile
+/ar-lib
+/compile
+/test-driver

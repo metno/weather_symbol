@@ -136,7 +136,7 @@ TEST(SimpleWeatherSymbolTest, sunButMaybeRain )
 	ASSERT_EQ(PartlyCloud, factory.getSymbol(wd));
 }
 
-TEST(SimpleWeatherSymbolTest, wetBulbTemperaturePrecipitationPhase )
+TEST(SimpleWeatherSymbolTest, airTemperaturePrecipitationPhase )
 {
 	WeatherData wd;
 	wd.totalCloudCover = 90;
@@ -155,16 +155,18 @@ TEST(SimpleWeatherSymbolTest, wetBulbTemperaturePrecipitationPhase )
 	ASSERT_EQ(Rain, factory.getSymbol(wd) ) << "Rain";
 }
 
-TEST(SimpleWeatherSymbolTest, airTemperaturePrecipitationPhase )
+TEST(SimpleWeatherSymbolTest, wetBulbTemperaturePrecipitationPhase )
 {
 	WeatherData wd;
 	wd.totalCloudCover = 90;
 	wd.precipitation = 5;
 
-	wd.wetBulbTemperature = 0.5;
+	wd.wetBulbTemperature = -0.1;
 	ASSERT_EQ(HeavySnow, factory.getSymbol(wd) ) << "HeavySnow";
+	wd.wetBulbTemperature = 0;
+	ASSERT_EQ(HeavySleet, factory.getSymbol(wd) ) << "HeavySleet";
 
-	wd.wetBulbTemperature = 0.6;
+	wd.wetBulbTemperature = 1;
 	ASSERT_EQ(HeavySleet, factory.getSymbol(wd) ) << "HeavySleet";
 
 	wd.wetBulbTemperature = 1.0;
@@ -182,10 +184,10 @@ TEST(SimpleWeatherSymbolTest, thunderStorm )
 	wd.precipitation = 5;
 	wd.thunder = true;
 
-	wd.wetBulbTemperature = 0.5;
+	wd.wetBulbTemperature = -0.1;
 	ASSERT_EQ(HeavySnowThunder, factory.getSymbol(wd) ) << "HeavySnowThunder";
 
-	wd.wetBulbTemperature = 0.6;
+	wd.wetBulbTemperature = 0.0;
 	ASSERT_EQ(HeavySleetThunder, factory.getSymbol(wd) ) << "HeavySleetThunder";
 
 	wd.wetBulbTemperature = 1.0;
