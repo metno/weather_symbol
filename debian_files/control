@@ -1,18 +1,19 @@
 Source: libweather-symbol
 Priority: extra
 Maintainer: Vegard Bønes <vegard.bones@met.no>
-Build-Depends: debhelper (>= 7.4.1), autotools-dev, libboost-dev
+Build-Depends: debhelper (>= 7.4.1), build-essential (>= 11.5), devscripts, autotools-dev, libboost-dev,
+ autoconf, automake, libtool
 Standards-Version: 3.9.3
 Section: libs
 
 Package: libweather-symbol-dev
 Section: libdevel
 Architecture: any
-Depends: libweather-symbol3 (= ${binary:Version}), ${misc:Depends}
+Depends: libweather-symbol4 (= ${binary:Version}), ${misc:Depends}
 Description: Generate weather symobls from a weather observations or -forecasts
  Weather symbol generation algorithm, used by met.no
 
-Package: libweather-symbol3
+Package: libweather-symbol4
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
