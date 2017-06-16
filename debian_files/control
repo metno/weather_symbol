@@ -2,7 +2,7 @@ Source: libweather-symbol
 Priority: extra
 Maintainer: Vegard Bønes <vegard.bones@met.no>
 Build-Depends: debhelper (>= 7.4.1), build-essential (>= 11.5), devscripts, autotools-dev, libboost-dev,
- autoconf, automake, libtool
+ autoconf, automake, libtool, libboost-dev
 Standards-Version: 3.9.3
 Section: libs
 
