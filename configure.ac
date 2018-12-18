@@ -1,5 +1,5 @@
 AC_PREREQ(2.68)
-AC_INIT(libweather-symbol, 0.4.2, [post@met.no])
+AC_INIT(libweather-symbol, 0.5.0, [post@met.no])
 AM_INIT_AUTOMAKE(foreign -Wall -Werror subdir-objects)
 
 AM_PROG_AR
