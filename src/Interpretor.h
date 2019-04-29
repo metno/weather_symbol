@@ -29,11 +29,10 @@
 #ifndef WEATHERSYMBOLINTERPRETOR_H_
 #define WEATHERSYMBOLINTERPRETOR_H_
 
-#include "Code.h"
 #include <map>
 #include <set>
 #include <string>
-
+#include "Code.h"
 
 namespace weather_symbol
 {

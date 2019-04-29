@@ -1,3 +1,10 @@
+libweather-symbol (0.5.1-1) precise; urgency=low
+
+  * new version.
+  * Changed the build to only build static libs.
+  
+ -- Børge Moe <borge.moe@met.no>  Mon, 29 Apr 2019 12:30:00 +0200
+
 libweather-symbol (0.5.0-1) precise; urgency=low
 
   * new version.

@@ -52,7 +52,7 @@ T swapKeyVal( const  T &p  )
 
 Interpretor::Interpretor()
 {
-	names = boost::assign::map_list_of
+	 NameMap myNames = boost::assign::map_list_of
 		(Error, "Error")
 		(Sun, "Sun")
 		(LightCloud, "LightCloud")
@@ -118,7 +118,8 @@ Interpretor::Interpretor()
 		(Dark_HeavySnowSun, "Dark_HeavySnowSun")
 	;
 
-	precipitationFreeCodes = boost::assign::list_of
+	names = myNames;
+	CodeSet myPrecipitationFreeCodes = boost::assign::list_of
 		(Error)
 		(Sun)
 		(LightCloud)
@@ -129,8 +130,9 @@ Interpretor::Interpretor()
 		(Dark_LightCloud)
 		(Dark_PartlyCloud)
 		;
+	precipitationFreeCodes=myPrecipitationFreeCodes;
 
-	thunderCodes = boost::assign::list_of
+	CodeSet myThunderCodes = boost::assign::list_of
 		(LightRainThunderSun)
 		(RainThunder)
 		(SnowThunder)
@@ -160,7 +162,8 @@ Interpretor::Interpretor()
 		(Dark_HeavySnowThunderSun)
 		;
 
-	thunderToNoThunderCodes = boost::assign::map_list_of
+	thunderCodes = myThunderCodes;
+	SymbolMap myThunderToNoThunderCodes = boost::assign::map_list_of
 			(LightRainThunderSun, LightRainSun )
 			(RainThunder, Rain)
 			(SnowThunder, Snow)
@@ -189,9 +192,10 @@ Interpretor::Interpretor()
 			(Dark_LightSnowThunderSun, Dark_LightSnowSun)
 			(Dark_HeavySnowThunderSun, Dark_HeavySnowSun)
 			;
+	thunderToNoThunderCodes = myThunderToNoThunderCodes;
 	noThunderToThunderCodes = swapKeyVal( thunderToNoThunderCodes );
 
-	sunBelowHorizonCodes = boost::assign::map_list_of
+	SymbolMap mySunBelowHorizonCodes = boost::assign::map_list_of
 		(Error, Error)
 		(Sun, Dark_Sun)
 		(LightCloud, Dark_LightCloud)
@@ -254,7 +258,7 @@ Interpretor::Interpretor()
 		(Dark_LightSnowSun, Dark_LightSnowSun)
 		(Dark_HeavySnowSun, Dark_HeavySnowSun)
 		;
-
+	sunBelowHorizonCodes = mySunBelowHorizonCodes;
 
 }
 
