@@ -1,5 +1,6 @@
 if MUST_COMPILE_GTEST
 gtestdir=${checkdir}
+gtest_LIBRARIES = libgtest.a libgtest_main.a
 check_LIBRARIES = libgtest.a libgtest_main.a
 
 libgtest_a_SOURCES = 
@@ -7,7 +8,7 @@ libgtest_main_a_SOURCES =
 
 lib_gtest:
 	mkdir -p gtest
-	cd gtest; cmake $(gtest_src) && $(MAKE)
+	cd gtest; $(CMAKE) $(gtest_src) && $(MAKE)
 		
 libgtest.a: lib_gtest
 	cp gtest/$@ .

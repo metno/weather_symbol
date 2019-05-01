@@ -91,9 +91,9 @@ AC_LANG_PUSH(C++)
 
 CPPFLAGS_SAVED="$CPPFLAGS"
 AS_IF([test "x$gmock_base" = "x/usr"],
-    [gtest_src="${gmock_base}/src/gtest"],
-    [gtest_includes="-I${gmock_base}/gtest/include"
-     gtest_src="${gmock_base}/gtest"])
+    [gtest_src="${gmock_base}/src/googletest/googletest"],
+    [gtest_includes="-I${gmock_base}/googletest/include"
+     gtest_src="${gmock_base}/googletest"])
 
 CPPFLAGS="${gtest_includes} $CPPFLAGS"
 AC_CHECK_HEADER([gtest/gtest.h],
@@ -103,8 +103,9 @@ AC_CHECK_HEADER([gtest/gtest.h],
 
 
 AS_IF([test "x$gmock_base" = "x/usr"],
-    [gmock_src="${gmock_base}/src/gmock"],
-    [gmock_includes="-I${gmock_base}/include";gmock_src="${gmock_base}"])
+    [gmock_src="${gmock_base}/src/googletest/googlemock"],
+    [gmock_includes="-I${gmock_base}/googletest/googlemock/include"
+	 gmock_src="${gmock_base}/googlemock"])
 
 CPPFLAGS="${gmock_includes} $CPPFLAGS"
 AC_CHECK_HEADER([gmock/gmock.h],
@@ -112,8 +113,8 @@ AC_CHECK_HEADER([gmock/gmock.h],
     have_gmock=true],
     [AC_MSG_WARN([Unable to find header gmock/gmock.h])])
 
-CPPFLAGS=$CPPFLAGS_SAVED
 
+CPPFLAGS=$CPPFLAGS_SAVED
 
 ldflags_old="${LDFLAGS}"
 AS_IF([test "x$gmock_base" = "x/usr"],
@@ -159,8 +160,8 @@ LDFLAGS=${ldflags_old}
 
 AM_CONDITIONAL(HAVE_GTEST, [test x${have_gtest} = xtrue])
 AM_CONDITIONAL(HAVE_GMOCK, [test x${have_gmock} = xtrue])
-AM_CONDITIONAL(MUST_COMPILE_GTEST, [test x${must_compile_gtest} = xtrue -a x${have_gtest} = xtrue])
-AM_CONDITIONAL(MUST_COMPILE_GMOCK, [test x${must_compile_gmock} = xtrue -a x${have_gmock} = xtrue])
+AM_CONDITIONAL(MUST_COMPILE_GTEST, [test  x${have_gtest} = xtrue])
+AM_CONDITIONAL(MUST_COMPILE_GMOCK, [test x${have_gmock} = xtrue])
 
 AC_SUBST(gtest_src)
 AC_SUBST(gmock_src)

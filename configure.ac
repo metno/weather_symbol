@@ -12,8 +12,6 @@ AX_BOOST_BASE
 
 GMOCK_DIST_CHECK([.])
 
-
-
 # Configuration Files
 AC_CONFIG_FILES([Makefile libweather-symbol.pc])
 AC_OUTPUT
