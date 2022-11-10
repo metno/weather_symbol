@@ -31,4 +31,3 @@ EXTRA_DIST =
 include src/make.mk
 include test/make.mk
 #include gtest.mk
-include debian.mk

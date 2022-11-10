@@ -9,13 +9,7 @@ Section: libs
 Package: libweather-symbol-dev
 Section: libdevel
 Architecture: any
-Depends: libweather-symbol4 (= ${binary:Version}), ${misc:Depends}
+Depends: ${misc:Depends}
 Description: Generate weather symobls from a weather observations or -forecasts
  Weather symbol generation algorithm, used by met.no
 
-#Package: libweather-symbol4
-#Section: libs
-#Architecture: any
-#Depends: ${shlibs:Depends}, ${misc:Depends}
-#Description: Generate weather symobls from a weather observations or -forecasts
-# Weather symbol generation algorithm, used by met.no
